@@ -14,7 +14,7 @@ import SignupPage from "./pages/Auth/Signup";
 import "./App.css";
 
 let url = 'http://localhost:8080';
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV !== 'development') {
   url = 'https://priyanshu-post-node.herokuapp.com';
 }
 
