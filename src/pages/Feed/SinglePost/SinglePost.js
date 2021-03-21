@@ -3,6 +3,11 @@ import React, { Component } from "react";
 import Image from "../../../components/Image/Image";
 import "./SinglePost.css";
 
+let url = 'http://localhost:8080';
+if (process.env.NODE_ENV === 'production') {
+  url = 'https://priyanshu-post-node.herokuapp.com';
+}
+
 class SinglePost extends Component {
   state = {
     title: "",
@@ -14,7 +19,7 @@ class SinglePost extends Component {
 
   componentDidMount() {
     const postId = this.props.match.params.postId;
-    fetch("https://priyanshu-post-node.herokuapp.com/feed/post/" + postId, {
+    fetch(`${url}/feed/post/` + postId, {
       headers: {
         Authorization: "Bearer " + this.props.token,
       },
@@ -29,7 +34,7 @@ class SinglePost extends Component {
         this.setState({
           title: resData.post.title,
           author: resData.post.creator.name,
-          image: "https://priyanshu-post-node.herokuapp.com/" + resData.post.imageUrl,
+          image: `${url}/` + resData.post.imageUrl,
           date: new Date(resData.post.createdAt).toLocaleDateString("en-US"),
           content: resData.post.content,
         });

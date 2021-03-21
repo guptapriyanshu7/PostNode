@@ -10,6 +10,12 @@ import Loader from '../../components/Loader/Loader';
 import ErrorHandler from '../../components/ErrorHandler/ErrorHandler';
 import './Feed.css';
 
+
+let url = 'http://localhost:8080';
+if (process.env.NODE_ENV === 'production') {
+  url = 'https://priyanshu-post-node.herokuapp.com';
+}
+
 class Feed extends Component {
   state = {
     isEditing: false,
@@ -23,7 +29,7 @@ class Feed extends Component {
   };
 
   componentDidMount() {
-    fetch('https://priyanshu-post-node.herokuapp.com/auth/status', {
+    fetch(`${url}/auth/status`, {
       headers: {
         Authorization: 'Bearer ' + this.props.token,
       },
@@ -40,7 +46,7 @@ class Feed extends Component {
       .catch(this.catchError);
 
     this.loadPosts();
-    const io = openSocket('https://priyanshu-post-node.herokuapp.com');
+    const io = openSocket(`${url}`);
     io.on('posts', (data) => {
       if (data.action === 'create') {
         this.addPost(data.post);
@@ -96,7 +102,7 @@ class Feed extends Component {
       page--;
       this.setState({ postPage: page });
     }
-    fetch('https://priyanshu-post-node.herokuapp.com/feed/posts?page=' + page, {
+    fetch(`${url}/feed/posts?page=` + page, {
       headers: {
         Authorization: 'Bearer ' + this.props.token,
       },
@@ -124,7 +130,7 @@ class Feed extends Component {
 
   statusUpdateHandler = (event) => {
     event.preventDefault();
-    fetch('https://priyanshu-post-node.herokuapp.com/auth/status', {
+    fetch(`${url}/auth/status`, {
       method: 'PATCH',
       headers: {
         Authorization: 'Bearer ' + this.props.token,
@@ -173,14 +179,14 @@ class Feed extends Component {
     formData.append('title', postData.title);
     formData.append('content', postData.content);
     formData.append('image', postData.image);
-    let url = 'https://priyanshu-post-node.herokuapp.com/feed/post';
+    let urll = `${url}/feed/post`;
     let method = 'POST';
     if (this.state.editPost) {
-      url = 'https://priyanshu-post-node.herokuapp.com/feed/post/' + this.state.editPost._id;
+      urll = `${url}/feed/post/${this.state.editPost._id}`;
       method = 'PUT';
     }
 
-    fetch(url, {
+    fetch(urll, {
       method: method,
       body: formData,
       headers: {
@@ -235,7 +241,7 @@ class Feed extends Component {
 
   deletePostHandler = (postId) => {
     this.setState({ postsLoading: true });
-    fetch('https://priyanshu-post-node.herokuapp.com/feed/post/' + postId, {
+    fetch(`${url}/feed/post/` + postId, {
       method: 'DELETE',
       headers: {
         Authorization: 'Bearer ' + this.props.token,

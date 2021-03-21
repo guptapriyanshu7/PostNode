@@ -13,6 +13,11 @@ import LoginPage from "./pages/Auth/Login";
 import SignupPage from "./pages/Auth/Signup";
 import "./App.css";
 
+let url = 'http://localhost:8080';
+if (process.env.NODE_ENV === 'production') {
+  url = 'https://priyanshu-post-node.herokuapp.com';
+}
+
 class App extends Component {
   state = {
     showBackdrop: false,
@@ -22,6 +27,7 @@ class App extends Component {
     userId: null,
     authLoading: false,
     error: null,
+    verify: false
   };
 
   componentDidMount() {
@@ -59,7 +65,7 @@ class App extends Component {
   loginHandler = (event, authData) => {
     event.preventDefault();
     this.setState({ authLoading: true });
-    fetch("https://priyanshu-post-node.herokuapp.com/auth/login", {
+    fetch(`${url}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -109,7 +115,7 @@ class App extends Component {
   signupHandler = (event, authData) => {
     event.preventDefault();
     this.setState({ authLoading: true });
-    fetch("https://priyanshu-post-node.herokuapp.com/auth/signup", {
+    fetch(`${url}/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -134,7 +140,7 @@ class App extends Component {
       })
       .then((resData) => {
         console.log(resData);
-        this.setState({ isAuth: false, authLoading: false });
+        this.setState({ isAuth: false, authLoading: false, error: resData, verify: true });
         // this.props.history.replace("/");
       })
       .catch((err) => {
@@ -154,7 +160,11 @@ class App extends Component {
   };
 
   errorHandler = () => {
-    this.setState({ error: null });
+    if(this.state.verify) {
+      this.setState({ error: null, verify: false });
+    } else {
+      this.setState({ error: null });
+    }
   };
 
   render() {
@@ -214,7 +224,7 @@ class App extends Component {
         {this.state.showBackdrop && (
           <Backdrop onClick={this.backdropClickHandler} />
         )}
-        <ErrorHandler error={this.state.error} onHandle={this.errorHandler} />
+        <ErrorHandler error={this.state.error} verify={this.state.verify} onHandle={this.errorHandler} />
         <Layout
           header={
             <Toolbar>
