@@ -8,7 +8,7 @@
 > A blogging app in React to share articles with others.
 
 <div align="center">
-<img  src="https://user-images.githubusercontent.com/60141300/135649898-3c95f451-0197-462b-bf94-8e843d9ca4ac.gif" width="300" height="600" />
+<img  src="https://user-images.githubusercontent.com/60141300/135670022-f1acc58e-5d3e-4323-bbe3-f3ee0528d085.gif" width="850" height="500" />
 </div>
 
 ## Backend
