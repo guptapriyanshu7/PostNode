@@ -16,4 +16,4 @@ https://github.com/guptapriyanshu7/rest-api
 
 ## License
 
-This project is licensed under the MIT License, © 2021 Priyanshu Gupta. See [LICENSE](https://github.com/guptapriyanshu7/PostNode/blob/main/LICENSE) for more details.
+PostNode is licensed under the MIT License, © 2021 Priyanshu Gupta. See [LICENSE](https://github.com/guptapriyanshu7/PostNode/blob/main/LICENSE) for more details.
